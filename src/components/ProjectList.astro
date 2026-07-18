@@ -1,0 +1,71 @@
+---
+import ProjectCard from './ProjectCard.astro';
+
+const projects = [
+  {
+    title: 'HackODS 2026',
+    enTitle: 'HackODS 2026',
+    description: 'Análisis de datos aplicado a los Objetivos de Desarrollo Sostenible (ODS). Identificación de patrones y estructuración de información para impacto social.',
+    enDescription: 'Data analysis applied to the Sustainable Development Goals (SDGs). Identification of patterns and structuring of information for social impact.',
+    role: 'Data Analysis',
+    enRole: 'Data Analysis',
+    tags: ['Python', 'Data Analysis', 'ODS', 'Teamwork'],
+    repoUrl: 'https://github.com/HackODS/HackODS2026_typers'
+  },
+  {
+    title: 'Mobility & AI Hackathon',
+    enTitle: 'Mobility & AI Hackathon',
+    description: 'Ideación y construcción de soluciones tecnológicas integrando Inteligencia Artificial orientada a la movilidad urbana. Entorno 100% en inglés.',
+    enDescription: 'Ideation and construction of technological solutions integrating Artificial Intelligence aimed at urban mobility. 100% English environment.',
+    role: 'Development',
+    enRole: 'Development',
+    tags: ['AI/ML', 'Python', 'English', 'Urban Mobility'],
+    repoUrl: 'https://github.com/Hello-World-UNAM/helloworld-web'
+  },
+  {
+    title: 'Technical Assessments — PRB & FAMA',
+    enTitle: 'Technical Assessments — PRB & FAMA',
+    description: 'Resolución de retos técnicos, algoritmos de implementación y arquitectura de software para posiciones de ingeniería en Premium Restaurant Brands y FAMA (España).',
+    enDescription: 'Resolution of technical challenges, implementation algorithms, and software architecture for engineering positions at Premium Restaurant Brands and FAMA (Spain).',
+    role: 'Software Engineering',
+    enRole: 'Software Engineering',
+    tags: ['Algorithms', 'Architecture', 'Problem Solving', 'Spain']
+  },
+  {
+    title: 'Linux & Hyprland — Custom Environment',
+    enTitle: 'Linux & Hyprland — Custom Environment',
+    description: 'Configuración avanzada de entornos de desarrollo utilizando Manjaro Linux, optimización del gestor de ventanas Hyprland y gestión estructurada de bases de conocimiento mediante Obsidian.',
+    enDescription: 'Advanced configuration of development environments using Manjaro Linux, optimization of the Hyprland window manager, and structured management of knowledge bases using Obsidian.',
+    role: 'DevOps / Sysadmin',
+    enRole: 'DevOps / Sysadmin',
+    tags: ['Linux', 'Hyprland', 'Manjaro', 'Obsidian', 'Dotfiles']
+  }
+];
+---
+
+<section id="projects" class="py-24 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="font-['JetBrains_Mono'] text-sm text-[#555] mb-2">&gt; ls -la ./projects</p>
+    <h2 class="font-['JetBrains_Mono'] text-2xl text-[#e0e0e0] font-medium mb-4">
+      <span class="lang-es">Proyectos</span>
+      <span class="lang-en">Projects</span>
+    </h2>
+    <div class="h-px bg-[#333] mb-12"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map((project, i) => (
+        <ProjectCard
+          title={project.title}
+          enTitle={project.enTitle}
+          description={project.description}
+          enDescription={project.enDescription}
+          role={project.role}
+          enRole={project.enRole}
+          tags={project.tags}
+          repoUrl={project.repoUrl}
+          index={i + 1}
+        />
+      ))}
+    </div>
+  </div>
+</section>

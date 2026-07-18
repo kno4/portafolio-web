@@ -1,0 +1,54 @@
+---
+/**
+ * ScanLine.astro
+ * Purely decorative CRT scanline overlay effect.
+ * Covers the full viewport without intercepting pointer events.
+ */
+---
+
+<div class="scanline-overlay fixed inset-0 z-50 pointer-events-none" aria-hidden="true">
+  <div class="scan-bar"></div>
+</div>
+
+<style>
+  .scanline-overlay {
+    opacity: 0.04;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+
+  .scan-bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(196, 154, 60, 0.4),
+      transparent
+    );
+    animation: scan-move 8s linear infinite;
+  }
+
+  @keyframes scan-move {
+    0% {
+      transform: translateY(-100vh);
+    }
+    100% {
+      transform: translateY(100vh);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan-bar {
+      animation: none;
+      display: none;
+    }
+  }
+</style>

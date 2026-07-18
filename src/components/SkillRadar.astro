@@ -1,0 +1,184 @@
+---
+const skills = [
+  { name: 'Python', value: 85 },
+  { name: 'JavaScript', value: 75 },
+  { name: 'Linux', value: 90 },
+  { name: 'Data Analysis', value: 80 },
+  { name: 'AI/ML', value: 70 },
+  { name: 'DevOps', value: 65 },
+];
+
+const cx = 150, cy = 150, maxR = 95;
+const angleStep = (2 * Math.PI) / skills.length;
+const startAngle = -Math.PI / 2;
+
+function getPoint(index: number, ratio: number) {
+  const angle = startAngle + index * angleStep;
+  return {
+    x: Math.round((cx + maxR * ratio * Math.cos(angle)) * 100) / 100,
+    y: Math.round((cy + maxR * ratio * Math.sin(angle)) * 100) / 100
+  };
+}
+
+// Grid hexagons at 33%, 66%, 100%
+const gridLevels = [0.33, 0.66, 1.0];
+const gridHexagons = gridLevels.map(level =>
+  Array.from({length: 6}, (_, i) => getPoint(i, level))
+    .map(p => `${p.x},${p.y}`).join(' ')
+);
+
+// Axis lines
+const axisLines = Array.from({length: 6}, (_, i) => ({
+  x2: getPoint(i, 1.0).x,
+  y2: getPoint(i, 1.0).y
+}));
+
+// Data points
+const dataPoints = skills.map((s, i) => ({
+  ...getPoint(i, s.value / 100),
+  name: s.name,
+  value: s.value
+}));
+const dataPolygon = dataPoints.map(p => `${p.x},${p.y}`).join(' ');
+
+// Label positions (slightly outside)
+const labelPoints = skills.map((s, i) => ({
+  ...getPoint(i, 1.18),
+  name: s.name
+}));
+
+function getTextAnchor(x: number): string {
+  if (x < 140) return 'end';
+  if (x > 160) return 'start';
+  return 'middle';
+}
+---
+
+<section id="skills" class="py-24 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="font-['JetBrains_Mono'] text-sm text-[#555] mb-2">&gt; cat skills.json</p>
+    <h2 class="font-['JetBrains_Mono'] text-2xl text-[#e0e0e0] font-medium mb-4">
+      <span class="lang-es">Habilidades</span>
+      <span class="lang-en">Skills</span>
+    </h2>
+    <div class="h-px bg-[#333] mb-12"></div>
+
+    <div class="flex flex-col md:flex-row items-center gap-12">
+      <!-- LEFT - SVG Radar -->
+      <div class="w-full max-w-[450px] aspect-square shrink-0 mx-auto md:mx-0">
+        <svg viewBox="-30 -30 360 360" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible radar-svg">
+          {/* Grid hexagons */}
+          {gridHexagons.map(hex => (
+            <polygon points={hex} fill="none" stroke="#333" stroke-width="0.5" />
+          ))}
+
+          {/* Axis lines */}
+          {axisLines.map(line => (
+            <line x1={cx} y1={cy} x2={line.x2} y2={line.y2} stroke="#333" stroke-width="0.5" />
+          ))}
+
+          {/* Data polygon */}
+          <polygon
+            points={dataPolygon}
+            fill="rgba(196,154,60,0.08)"
+            stroke="#c49a3c"
+            stroke-width="1.5"
+            class="radar-polygon"
+          />
+
+          {/* Data dots */}
+          {dataPoints.map(point => (
+            <circle cx={point.x} cy={point.y} r="4" fill="#c49a3c" class="radar-point cursor-pointer transition-all hover:r-[6px] hover:fill-[#e0e0e0]" data-skill={point.name}>
+              <title>{point.name}: {point.value}%</title>
+            </circle>
+          ))}
+
+          {/* Labels */}
+          {labelPoints.map(label => (
+            <text
+              x={label.x}
+              y={label.y}
+              font-size="14"
+              fill="#888"
+              text-anchor={getTextAnchor(label.x)}
+              dominant-baseline="middle"
+              font-family="'JetBrains Mono', monospace"
+              class="radar-label cursor-pointer transition-colors hover:fill-[#c49a3c]"
+              data-skill={label.name}
+            >
+              <title>{label.name}</title>
+              {label.name}
+            </text>
+          ))}
+        </svg>
+      </div>
+
+      <!-- RIGHT - Skill bars -->
+      <div class="flex-1 w-full max-w-[280px] space-y-3">
+        {skills.map(skill => (
+          <div class="skill-bar transition-opacity duration-300" data-skill-bar={skill.name}>
+            <div class="flex justify-between mb-1">
+              <span class="font-['JetBrains_Mono'] text-xs text-[#e0e0e0]">{skill.name}</span>
+              <span class="font-['JetBrains_Mono'] text-[10px] text-[#888]">{skill.value}%</span>
+            </div>
+            <div class="h-[2px] w-full bg-[#1a1a1a] rounded-full">
+              <div class="skill-bar-fill h-full rounded-full bg-[#c49a3c] transition-shadow duration-300" style={`width: ${skill.value}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .radar-polygon {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: draw-radar 1.5s ease-out forwards;
+  }
+
+  @keyframes draw-radar {
+    from {
+      stroke-dashoffset: 800;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const interactables = document.querySelectorAll('.radar-point, .radar-label');
+    const skillBars = document.querySelectorAll('.skill-bar');
+
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const skillName = el.getAttribute('data-skill');
+        
+        // Dim all bars and highlight the matching one
+        skillBars.forEach(bar => {
+          if (bar.getAttribute('data-skill-bar') === skillName) {
+            bar.style.opacity = '1';
+            const fill = bar.querySelector('.skill-bar-fill');
+            if (fill) fill.style.boxShadow = '0 0 10px #c49a3c';
+          } else {
+            bar.style.opacity = '0.2';
+            const fill = bar.querySelector('.skill-bar-fill');
+            if (fill) fill.style.boxShadow = 'none';
+          }
+        });
+      });
+
+      el.addEventListener('mouseleave', () => {
+        // Restore all bars
+        skillBars.forEach(bar => {
+          bar.style.opacity = '1';
+          const fill = bar.querySelector('.skill-bar-fill');
+          if (fill) fill.style.boxShadow = 'none';
+        });
+      });
+    });
+  });
+</script>

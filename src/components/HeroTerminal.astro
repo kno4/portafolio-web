@@ -1,0 +1,222 @@
+---
+// HeroTerminal.astro — Terminal-window hero section
+---
+
+<section
+  id="hero"
+  class="min-h-screen flex items-center justify-center px-4 py-20"
+>
+  <!-- Terminal window -->
+  <div class="max-w-2xl w-full terminal-window">
+    <!-- Title bar -->
+    <div
+      class="h-9 flex items-center px-4 bg-[#1a1a1a] border-b border-[#333333] rounded-t-lg"
+    >
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-[#ff5f57]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#28c840]"></span>
+      </div>
+      <span
+        class="flex-1 text-center text-xs text-[#888888] font-[JetBrains_Mono,monospace] select-none"
+      >
+        kno4@dev:~
+      </span>
+      <!-- Spacer to keep the title centered against the dots -->
+      <div class="w-[52px]"></div>
+    </div>
+
+    <!-- Terminal body -->
+    <div
+      class="p-6 font-[JetBrains_Mono,monospace] text-sm leading-relaxed flex flex-col gap-1.5"
+    >
+      <!-- Line 1: whoami command -->
+      <p class="terminal-line delay-1">
+        <span class="text-[#888888]">kno4@dev</span><span class="text-[#c49a3c]"
+          >:~$</span
+        > whoami
+      </p>
+
+      <!-- Line 2: Name output -->
+      <p
+        class="terminal-line delay-2 text-[#e0e0e0] text-3xl md:text-4xl font-bold tracking-tight my-2"
+      >
+        Enrique Emiliano Cano García
+      </p>
+
+      <!-- Line 3: cat command -->
+      <p class="terminal-line delay-3">
+        <span class="text-[#888888]">kno4@dev</span><span class="text-[#c49a3c]"
+          >:~$</span
+        >
+        <span class="lang-es">cat perfil.txt</span>
+        <span class="lang-en">cat profile.txt</span>
+      </p>
+
+      <!-- Line 4: Profile line 1 -->
+      <p class="terminal-line delay-4 text-[#888888]">
+        &gt;
+        <span class="lang-es">Ingeniería en Computación — FES Aragón</span>
+        <span class="lang-en">Computer Engineering — FES Aragón</span>
+      </p>
+
+      <!-- Line 5: Profile line 2 -->
+      <p class="terminal-line delay-5 text-[#888888]">
+        &gt;
+        <span class="lang-es"
+          >Desarrollo · Análisis de Datos · Entornos Customizados</span
+        >
+        <span class="lang-en"
+          >Development · Data Analysis · Custom Environments</span
+        >
+      </p>
+
+      <!-- Line 5b: Profile line 3 (Bio) -->
+      <p class="terminal-line delay-6 text-[#888888]">
+        &gt;
+        <span class="lang-es"
+          >Apasionado por la resolución de problemas complejos. Me atrae el
+          diseño de sistemas eficientes, la automatización y el desarrollo de
+          herramientas que potencien la productividad.</span
+        >
+        <span class="lang-en"
+          >Passionate about solving complex problems. I am drawn to designing
+          efficient systems, automation, and developing tools that boost
+          productivity.</span
+        >
+      </p>
+
+      <!-- Line 5c: Profile line 4 (Bio) -->
+      <p class="terminal-line delay-[2.8s] text-[#888888] mb-2">
+        &gt;
+        <span class="lang-es"
+          >Destaco en análisis de datos, desarrollo backend y configuración de
+          entornos Linux.</span
+        >
+        <span class="lang-en"
+          >I excel in data analysis, backend development, and configuring Linux
+          environments.</span
+        >
+      </p>
+
+      <!-- Line 5d: Contacts -->
+      <div
+        class="terminal-line delay-[3.0s] flex flex-wrap gap-4 text-xs mt-1 mb-4"
+      >
+        <a
+          href="https://github.com/kno4"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#888888] hover:text-[#c49a3c] transition-colors duration-200"
+          >[ GitHub ]</a
+        >
+        <a
+          href="https://www.linkedin.com/in/enrique-cano-garcía-2a3012227"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#888888] hover:text-[#c49a3c] transition-colors duration-200"
+          >[ LinkedIn ]</a
+        >
+        <a
+          href="mailto:milokno4@gmail.com"
+          class="text-[#888888] hover:text-[#c49a3c] transition-colors duration-200"
+          >[ Email ]</a
+        >
+      </div>
+
+      <!-- Line 6: Empty prompt with blinking cursor -->
+      <p class="terminal-line delay-[3.2s] flex items-center">
+        <span class="text-[#888888]">kno4@dev</span><span class="text-[#c49a3c]"
+          >:~$</span
+        >
+        <span class="cursor-blink inline-block w-2 h-5 bg-[#c49a3c] ml-1"
+        ></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+    <span class="scroll-indicator block text-xs text-[#555555] select-none"
+      >▼</span
+    >
+  </div>
+</section>
+
+<style>
+  /* Terminal window chrome */
+  .terminal-window {
+    background: #141414;
+    border: 1px solid #333333;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 40px rgba(196, 154, 60, 0.05);
+    position: relative;
+  }
+
+  /* Base state for every terminal line — invisible until animated */
+  .terminal-line {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  /* Staggered delays */
+  .terminal-line.delay-1 {
+    animation-delay: 0.3s;
+  }
+  .terminal-line.delay-2 {
+    animation-delay: 0.8s;
+  }
+  .terminal-line.delay-3 {
+    animation-delay: 1.2s;
+  }
+  .terminal-line.delay-4 {
+    animation-delay: 1.6s;
+  }
+  .terminal-line.delay-5 {
+    animation-delay: 2s;
+  }
+  .terminal-line.delay-6 {
+    animation-delay: 2.4s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Blinking cursor */
+  .cursor-blink {
+    animation: blink 0.8s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Scroll-down chevron bounce */
+  .scroll-indicator {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+</style>

@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+/* ─── Theme ─────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-bg-primary: #0d0d0d;
+  --color-bg-secondary: #141414;
+  --color-bg-tertiary: #1a1a1a;
+  --color-border: #333333;
+  --color-border-accent: #c49a3c;
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #888888;
+  --color-accent: #c49a3c;
+  --color-accent-glow: #c49a3c33;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────── */
+
+/* ─── i18n ──────────────────────────────────────────────────────────── */
+html[lang="en"] .lang-es { display: none !important; }
+html[lang="es"] .lang-en { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-bg-primary);
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────── */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes terminal-type {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-cursor {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--color-accent);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 16px var(--color-accent-glow);
+  }
+}
+
+@keyframes scan-line {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes flicker {
+  0%   { opacity: 1; }
+  25%  { opacity: 0.97; }
+  50%  { opacity: 1; }
+  75%  { opacity: 0.985; }
+  100% { opacity: 1; }
+}
+
+/* ─── Animation Utilities ───────────────────────────────────────────── */
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-terminal-type {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: terminal-type 2s steps(30) forwards;
+}
+
+.animate-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-scan {
+  animation: scan-line 8s linear infinite;
+}
+
+.animate-flicker {
+  animation: flicker 4s infinite;
+}
+
+/* ─── Delay Utilities ───────────────────────────────────────────────── */
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ─── Component Utilities ───────────────────────────────────────────── */
+
+.hud-border {
+  border: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
+}
+
+.hud-border:hover {
+  border-color: var(--color-accent);
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-family: var(--font-mono);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-secondary);
+}
+
+.section-header {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.section-header::before {
+  content: '> ';
+  color: var(--color-accent);
+}
+
+/* ─── View Transitions ──────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

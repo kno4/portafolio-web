@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ScanLine from '../components/ScanLine.astro';
+import StatusBar from '../components/StatusBar.astro';
+import NavMatrix from '../components/NavMatrix.astro';
+import HeroTerminal from '../components/HeroTerminal.astro';
+import ProjectList from '../components/ProjectList.astro';
+import SkillRadar from '../components/SkillRadar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <!-- CRT Scanline overlay -->
+  <ScanLine />
+
+  <!-- HUD Navigation -->
+  <NavMatrix />
+
+  <!-- Main content area with left offset for desktop nav -->
+  <main class="md:ml-20 relative">
+    <!-- Hero Terminal Section -->
+    <HeroTerminal />
+
+    <!-- Projects Section -->
+    <ProjectList />
+
+    <!-- Skills Radar Section -->
+    <SkillRadar />
+
+    <!-- Footer -->
+    <Footer />
+  </main>
+
+  <!-- Status Bar -->
+  <StatusBar />
+</Layout>

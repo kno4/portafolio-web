@@ -1,0 +1,60 @@
+---
+const navItems = [
+  { id: '01', label: 'INICIO', enLabel: 'INIT', href: '#hero' },
+  { id: '02', label: 'PROYECTOS', enLabel: 'PROJECTS', href: '#projects' },
+  { id: '03', label: 'HABILIDADES', enLabel: 'SKILLS', href: '#skills' },
+  { id: '04', label: 'EOF', enLabel: 'EOF', href: '#footer' },
+];
+---
+
+<nav aria-label="Main navigation">
+  {/* ── Desktop: vertical side panel ── */}
+  <div class="nav-desktop hidden md:flex fixed left-0 top-1/2 -translate-y-1/2 z-30 ml-5 flex-col items-center">
+    {navItems.map((item, i) => (
+      <>
+        <a
+          href={item.href}
+          class="nav-node group relative flex flex-col items-center py-2 no-underline transition-colors duration-300"
+        >
+          <span class="nav-index font-[JetBrains_Mono] text-xs text-[#555] transition-colors duration-300 group-hover:text-[#c49a3c]">
+            [{item.id}]
+          </span>
+          <span class="nav-label font-[JetBrains_Mono] text-[10px] tracking-[0.3em] uppercase text-[#555] mt-1 transition-colors duration-300 group-hover:text-[#c49a3c]">
+            <span class="lang-es">{item.label}</span>
+            <span class="lang-en">{item.enLabel || item.label}</span>
+          </span>
+          {/* Hover glow on bracket */}
+          <span class="pointer-events-none absolute inset-0 rounded opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(circle,#c49a3c15_0%,transparent_70%)]" />
+        </a>
+        {i < navItems.length - 1 && (
+          <div class="nav-connector w-px h-6 bg-[#333]" />
+        )}
+      </>
+    ))}
+  </div>
+
+  {/* ── Mobile: horizontal bottom bar ── */}
+  <div class="nav-mobile flex md:hidden fixed bottom-10 left-1/2 -translate-x-1/2 z-30 flex-row items-center gap-3">
+    {navItems.map((item) => (
+      <a
+        href={item.href}
+        class="nav-cell group flex items-center justify-center w-9 h-9 border border-[#333] bg-[#141414]/80 backdrop-blur-sm font-[JetBrains_Mono] text-xs text-[#555] no-underline transition-all duration-300 hover:border-[#c49a3c] hover:text-[#c49a3c] hover:shadow-[0_0_8px_#c49a3c33]"
+      >
+        {item.id}
+      </a>
+    ))}
+  </div>
+</nav>
+
+<style>
+  .nav-node:focus-visible {
+    outline: 1px solid #c49a3c;
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .nav-cell:focus-visible {
+    outline: 1px solid #c49a3c;
+    outline-offset: 2px;
+  }
+</style>

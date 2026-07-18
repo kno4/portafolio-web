@@ -1,0 +1,93 @@
+---
+/**
+ * StatusBar.astro
+ * Fixed bottom bar styled like an IDE/HUD status bar.
+ * Displays location, availability status, and tech stack.
+ */
+---
+
+<div
+  class="fixed bottom-0 left-0 right-0 z-40 h-8 flex items-center justify-between px-4 md:px-6 bg-[#0d0d0d] border-t border-[#333333] font-['JetBrains_Mono'] text-xs select-none"
+  aria-label="Status bar"
+>
+  <!-- Left: Language Toggle & Location (Location hidden on mobile) -->
+  <div class="flex items-center gap-4">
+    <!-- Language Toggle -->
+    <button
+      id="lang-toggle"
+      class="flex items-center gap-1 text-[#888888] hover:text-[#c49a3c] transition-colors duration-200 cursor-pointer"
+      aria-label="Toggle language"
+    >
+      <span class="lang-label-es text-[#c49a3c]">ES</span>
+      <span class="text-[#333333]">/</span>
+      <span class="lang-label-en">EN</span>
+    </button>
+
+    <div class="hidden md:flex items-center gap-2">
+      <span class="text-[#888888]">
+        <span class="lang-es">UBICACIÓN:</span>
+        <span class="lang-en">LOCATION:</span>
+      </span>
+      <span class="text-[#c49a3c]">MX</span>
+    </div>
+  </div>
+
+  <!-- Separator (hidden on mobile) -->
+  <span class="hidden md:inline text-[#333333]">│</span>
+
+  <!-- Center: Status -->
+  <div class="flex items-center gap-2">
+    <span class="text-[#888888]">
+      <span class="lang-es">ESTADO:</span>
+      <span class="lang-en">STATUS:</span>
+    </span>
+    <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+    <span class="text-[#c49a3c]">
+      <span class="lang-es">Disponible</span>
+      <span class="lang-en">Available</span>
+    </span>
+  </div>
+
+  <!-- Separator (hidden on mobile) -->
+  <span class="hidden md:inline text-[#333333]">│</span>
+
+  <!-- Right: Stack (hidden on mobile) -->
+  <div class="hidden md:flex items-center gap-2">
+    <span class="text-[#888888]">STACK:</span>
+    <span class="text-[#c49a3c]">Astro · Python · Linux</span>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('lang-toggle');
+    const labelEs = toggleBtn.querySelector('.lang-label-es');
+    const labelEn = toggleBtn.querySelector('.lang-label-en');
+
+    // Update active label styling based on current lang
+    const updateLabels = () => {
+      const currentLang = document.documentElement.lang;
+      if (currentLang === 'en') {
+        labelEn.classList.add('text-[#c49a3c]');
+        labelEn.classList.remove('text-[#888888]');
+        labelEs.classList.add('text-[#888888]');
+        labelEs.classList.remove('text-[#c49a3c]');
+      } else {
+        labelEs.classList.add('text-[#c49a3c]');
+        labelEs.classList.remove('text-[#888888]');
+        labelEn.classList.add('text-[#888888]');
+        labelEn.classList.remove('text-[#c49a3c]');
+      }
+    };
+
+    updateLabels();
+
+    toggleBtn.addEventListener('click', () => {
+      const currentLang = document.documentElement.lang;
+      const newLang = currentLang === 'es' ? 'en' : 'es';
+      document.documentElement.lang = newLang;
+      localStorage.setItem('lang', newLang);
+      updateLabels();
+    });
+  });
+</script>
